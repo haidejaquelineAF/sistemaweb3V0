@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador</title>
+    <!--Estilos-->
+        <!--Bootstrap-->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!--Icons-->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <!--JQuery-->
+            <script src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/Tools/Jquery/jquery.min.js"></script>
+        <!--DataTables-->
+            <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+        <!--Multi-select-->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/css/multi-select-tag.css">
+        <style>
+            ::after,
+            ::before {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body{
+                min-width: 260px; max-width: 100vw;
+            }
+        </style>
+</head>
+<body>
+
+        <!--MENU MAQUETACIÓN 1 NVL ADMIN-->
+            <style>
+                .btn:focus{
+                    outline: none;
+                    box-shadow: none;
+                }
+                .bg-negro{
+                    background: black !important;
+                }
+                .size-logo{
+                    width: 20vw; min-width: 210px;
+                }
+                .size-iconmenu{
+                    height:2.5vw; min-height: 25px;
+                }
+                .size-iconsmenu{
+                    height:2vw; min-height: 25px;
+                }
+                .size-user{
+                    height:3vw; min-height: 30px;
+                }
+                .size-dropdownuser{
+                    width: 240px;
+                }
+                .size-userdrop{
+                    height:4.2vw; min-height: 32px;
+                }
+                .size-iconsdropuser{
+                    height:3vw; min-height: 30px;
+                }
+                .main{
+                    transition: all 0.35s ease-in-out;
+                    /*min-height:100vh;*/
+                    width: 100%;
+                }
+                #sidebar{
+                    /*width: 0px;
+                    min-width: 0px;*/
+                    width: 70px;
+                    min-width: 70px;
+                    z-index: 1000;
+                    transition: all 0.25s ease-in-out;
+                    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+                }
+                #sidebar.expand{
+                    width: 250px;
+                    min-width: 250px;
+                }
+                #sidebar:not(.expand) a.sidebar-link span
+                ,#sidebar:not(.expand) a.sidebar-link i{
+                    display: none;
+                }
+                .sidebar-nav{
+                    flex:1 1 auto;
+                }
+                a.sidebar-link{
+                    white-space: nowrap;
+                    letter-spacing: 0.15em;
+                    color: #000;
+                }
+                a.sidebar-link:hover{
+                    border-left: 3px solid #3b7ddd;
+                }
+                #sidebar:not(.expand) .sidebar-item .sidebar-dropdown{
+                    position: absolute;
+                    top:0;
+                    left: 70px;
+                    padding:0;
+                    min-width: 15rem;
+                    display: none;
+                    background:rgba(0,0,0,.1);
+                }
+
+                #sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown{
+                    display:block;
+                    max-height: 15rem;
+                    width: 100%;
+                    opacity: 1;
+                    text-align:start;
+                    margin-left: 0;
+                }
+                .has-dropdown+.sidebar-dropdown{
+                    background:rgba(0,0,0,.1);
+                    width: 210px;
+                    text-align: center;
+                    margin-left: 1.5rem;
+                }
+                #sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after{
+                    border: solid;
+                    border-width: 0 0.075rem 0.075rem 0;
+                    content: "";
+                    display: inline-block;
+                    padding: 2px;
+                    position:absolute;
+                    right: 1.5rem;
+                    top: 1.4rem;
+                    transform: rotate(-135deg);
+                    transition: all .2s ease-out;
+                }
+                #sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after{
+                    transform: rotate(45deg);
+                    transition: all .2s ease-out;
+                }
+            </style>
+            <div class="container-fluid bg-negro py-1" id="menu">
+                <div class="row d-flex align-items-center">
+                    <div class="col-12 d-sm-none d-block text-center">
+                        <a class="text-decoration-none text-white fs-5" href="https://haidejaquelineaf.github.io/sistemaweb3V0/">
+                            <img class="img-fluid d-inline-block size-logo" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsLogos/logoL_b-artemx_bc85898C.png">
+                        </a>
+                    </div>
+                    <div class="d-flex justify-content-center px-0" style="width: 80px !important;">
+                        <button id="toggle-btn" type="button" class="bg-transparent border-0 pt-2 pb-1 px-0">
+                            <img class="img-fluid d-inline-block size-iconmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_menu.png">
+                        </button>
+                    </div>
+                    <div class="col-6 d-sm-block d-none py-1">
+                        <a class="text-decoration-none text-white fs-5" href="https://haidejaquelineaf.github.io/sistemaweb3V0/">
+                            <img class="img-fluid d-inline-block size-logo" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsLogos/logoL_b-artemx_bc85898C.png">
+                        </a>
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                <button type="button" class="btn p-0"><i class="bi bi-bell fs-5 px-1 text-white"></i></button>
+                            <button type="button" class="btn p-0"><i class="bi bi-cart2 text-white fs-5 px-1"></i></button>
+                            <button type="button" class="btn p-0"><img class="size-iconsmenu"src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_languageFFFFFF.png"></button>
+                                <div class="btn-group" role="group">
+                                    <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_user.png" class="img-circle elevation-3 rounded-circle size-user">
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end rounded-0 size-dropdownuser" aria-labelledby="btnGroupDrop1">
+                                        <li class="px-2 row d-flex align-items-center">
+                                            <div class="col-3">
+                                                <img src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_user.png" class="img-circle elevation-3 rounded-circle size-userdrop">
+                                            </div>
+                                            <div class="col-9 pt-1">
+                                                <p class="fw-bold pt-1">Haide Jaqueline
+                                                <small class="fw-light pt-2">haide.aguilar14@gmail.com</small>
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/"><i class="bi bi-person-circle fs-5 text-secondary pe-3"></i>Mi cuenta</a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/"><i class="bi bi-bell-fill fs-5 text-secondary pe-3"></i>Notificaciones</a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/"><i class="bi bi-gear-fill fs-5 text-secondary pe-3"></i>Configuración</a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/"><i class="bi bi-headset fs-5 text-secondary pe-3"></i>Ayuda y soporte</a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/"><i class="bi bi-book-fill fs-5 text-secondary pe-3"></i>Política de privacidad</a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/b-artemxv1/"><i class="bi bi-power fs-5 text-secondary pe-3"></i>Cerrar sesión</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper d-flex">         
+                <aside id="sidebar" class="d-flex flex-column bg-white ">
+                    <ul class="sidebar-nav pt-5 pb-2 px-0">
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link text-decoration-none px-4 " href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_homeg.png">
+                                <span class="ps-4">Inicio</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link has-dropdown collapsed text-decoration-none px-4 " href="" data-bs-toggle="collapse" 
+                                data-bs-target="#usuarios" aria-expanded="false" aria-controls="usuarios">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_usersg.png">
+                                <span class="ps-4">Usuarios</span>
+                            </a>
+                            <ul id="usuarios" class="sidebar-dropdown list-unstyled collapse py-2" data-bs-parent="#sidebar">
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-2 ">Control de usuarios</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-2 ">Suspender cuentas</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-2 ">Control artistas</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link has-dropdown collapsed text-decoration-none px-4 " href="#" data-bs-toggle="collapse" 
+                                data-bs-target="#obras" aria-expanded="false" aria-controls="obras">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_artworksg.png">
+                                <span class="ps-4">Obras</span>
+                            </a>
+                            <ul id="obras" class="sidebar-dropdown list-unstyled collapse py-2" data-bs-parent="#sidebar">
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Galería</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Concurso</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/" class="sidebar-link text-decoration-none px-4">Valuación</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link has-dropdown collapsed text-decoration-none px-4 " href="#" data-bs-toggle="collapse" 
+                                data-bs-target="#concurso" aria-expanded="false" aria-controls="concurso">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_trophyg.png">
+                                <span class="ps-4">Concurso</span>
+                            </a>
+                            <ul id="concurso" class="sidebar-dropdown list-unstyled collapse py-2" data-bs-parent="#sidebar">
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Convocatoria</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Participantes</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link has-dropdown collapsed text-decoration-none px-4 " href="#" data-bs-toggle="collapse" 
+                                data-bs-target="#estadisticas" aria-expanded="false" aria-controls="estadisticas">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_stadisticsg.png">
+                                <span class="ps-4">Reporte</span>
+                            </a>
+                            <ul id="estadisticas" class="sidebar-dropdown list-unstyled collapse py-2" data-bs-parent="#sidebar">
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Sistema</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Usuario</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item py-2 position-relative">
+                            <a class="sidebar-link text-decoration-none px-4 " href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/">
+                            <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_supportg2.png">
+                                <span class="ps-4">Soporte</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link text-decoration-none px-4" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_sistemg.png">
+                                <span class="ps-4">Sistema</span>
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+                <div class="main overflow-hidden">
+                    <style>
+                        select:focus{
+                            outline: none !important;
+                            box-shadow: none !important;
+                        }
+                        .size-fotoobra{
+                            width: max-content;
+                            height: auto;
+                            max-height: 250px;
+                        }
+                        .titulo-configcuenta{
+                            letter-spacing: 0.4em;
+                            font-size: calc(.8em + .8vw);
+                        }
+                        .icons-configcuenta{
+                            height:25px;
+                        }  
+                        .size-textinfo{
+                            font-size: 14px;
+                        }
+                        .cont-vlcn{
+                            min-width: 700px;
+                            overflow-x: auto;
+                        }
+                        .contsec{
+                            max-height:530px;
+                            overflow-y: auto;
+                        }
+                        .contPond{
+                            width: 970px !important;
+                            overflow-x: auto;
+                        }
+                        @media screen and (max-width: 575px) {
+                            .size-fotoobra{
+                                width: 200px !important;
+                                height: auto;
+                            }
+                        }
+                    </style>
+                    <div class="container-fluid contsec">
+                        <h2 class="fw-light text-center pt-5 pb-2 titulo-configcuenta text-break">Sistema Web 3V.0</h2>
+                        
+                        <hr class="">
+
+                        <div class="container d-flex justify-content-center bg-secondary px-sm-5 py-md-2 mx-sm-auto  p-0 m-0">
+                            <form class="row g-3 w-100 bg-white m-md-5 my-1 pb-3 px-md-3" method="post" id="frmActualizarMiInfo">
+                                <h5 class="pt-3 fw-bold text-break">Información de la obra</h5>
+                                <hr class="mt-1"> 
+
+                                <div class="col-sm-5">
+                                    <div class="from-group">
+                                        <span>Imagen de la obra</span>
+                                        <div class="card rounded-0 px-sm-0 px-2" id="contimg">
+                                            <div class="card-body mx-sm-auto mx-2 pt-2 px-sm-0">
+                                                <img class="img-thumbnail mx-auto d-block" id="imagen_obraev" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Files/img/FotosObrasFT/ejemplo.jpg" alt="" style="max-height: 250px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="col-sm-7">
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-12 pt-2">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <small class="ps-md-4">Título:</small>
+                                                    <input type="hidden" id="idObra" name="idObra">
+                                                </div>
+                                                <div class="col">
+                                                    <div id="titulo_obraev" name="titulo_obraev" class="text-secondary size-textinfo">Diferencia y continuidad.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 pt-2">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <small class="ps-md-4">Autor:</small>
+                                                </div>
+                                                <div class="col">
+                                                    <div id="autor_obraev" name="autor_obraev" class="text-secondary size-textinfo">Manuel Felguerez <br>Juan García Ponce.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 pt-2">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <small class="ps-md-4">Serie:</small>
+                                                </div>
+                                                <div class="col">
+                                                    <div id="serie_obraev" name="serie_obraev" class="text-secondary size-textinfo">Colección Tezontle. <br> ISBN 968-16/7665-3 (Encuadernada)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 pt-2">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <small class="ps-md-4">Solicitante:</small>
+                                                </div>
+                                                <div class="col">
+                                                    <div id="solicitante_obraev" name="solicitante_obraev" class="text-secondary size-textinfo">HAIDE JAQUELINE AGUILAR FLORES</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 pt-2">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <small class="ps-md-4">Descripción:</small>
+                                                </div>
+                                                <div class="col">
+                                                    <div id="descripcion_obraev" name="descripcion_obraev" class="text-secondary size-textinfo">Parte de la serie de 24 serigrafías contenidas en una carpeta resultado de investigación de Manuel Felguerez y Juan García Ponce.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 pt-2">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <small class="ps-md-4">Técnica(s):</small>
+                                                </div>
+                                                <div class="col">
+                                                    <div id="tecnicas_obraev" name="tecnicas_obraev" class="text-secondary size-textinfo">Serigrafía</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 pt-2">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <small class="ps-md-4">Año:</small>
+                                                </div>
+                                                <div class="col">
+                                                    <div id="fejecucion_obraev" name="fejecucion_obraev" class="text-secondary size-textinfo">1982</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-10 pt-5">
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-6 text-center size-textinfo">
+                                                    Ver más información de la obra
+                                                </div>
+                                                <div class="col-6">
+                                                    <button type="button" class="btn btn-dark rounded-0 px-2 pt-0 pb-1" data-bs-toggle="modal" data-bs-target="#mdlVerFichaTecnica"><img class="p-0 icons-configcuenta"src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_eyeFFFFFF.png"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr class="my-3">
+                                <div class="contPond">
+                                    <table class="table bg-white" style="min-width: 700px;">
+                                        <thead>
+                                            <p class="text-center fs-4 fw-blod pt-4 bg-none">VARIABLES OBJETIVAS</p>
+                                            <tr>
+                                                <th style="width: 120px !important;"></th>
+                                                <th>Intrínsecas</th>
+                                                <th>Extrínsecas</th>
+                                                <th>Independientes</th>
+                                                <th>Tasación experto 1</th>
+                                                <th>Tasación experto 2</th>
+                                                <th>Ponderación</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><small>Trayectoria</small></td>
+                                                <td>
+                                                    <label for="pb1_b1" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="pb1_b1" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option value="0">Ninguna</option>
+                                                        <option value="">Licenciatura</option>
+                                                        <option value="">Maestría en arte o compatible</option>
+                                                        <option value="">Doctorado en arte o compatible</option>
+                                                        <option value="">Postdoctorados</option>
+                                                        <option value="">Residencias académicas</option>
+                                                        <option value="">Catálogos ISSN</option>
+                                                        <option value="">Publicaciones ISBN</option>
+                                                        <option value="">Artículos académicos indexados</option>
+                                                        <option value="">Investigación y academia</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="pb1_b2" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="pb1_b2" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option value="0">Ninguna</option>
+                                                        <option value="">Autodidacta</option>
+                                                        <option value="">Diplomados y talleres</option>
+                                                        <option value="">Maestros y/o mentores</option>
+                                                        <option value="">Exposiciones</option>
+                                                        <option value="">Catálogos razonados y publicaciones</option>
+                                                        <option value="">Movimientos artísticos</option>
+                                                        <option value="">Reconocimientos y premios</option>
+                                                        <option value="">Experimentación y tendencia</option>
+                                                        <option value="">Valor histórico cultural y contexto</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="pb1_b3" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="pb1_b3" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="pb1_b4" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="pb1_b4" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="pb1_b5" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="pb1_b5" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>   
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Técnica</small></td>
+                                                <td>
+                                                    <label for="tb2_b1" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="tb2_b1" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Dominio de la herramienta</option>
+                                                        <option>Gestión del tono y contraste</option>
+                                                        <option>Textura y detalle</option>
+                                                        <option>Difuminado y transiciones suaves</option>
+                                                        <option>Control de limpieza</option>
+                                                        <option>Sombra y volumen</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="tb2_b2" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="tb2_b2" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Uso del espacio y la composición</option>
+                                                        <option>Innovación en el modo de empleo de la técnica</option>
+                                                        <option>Capacidad expresiva</option>
+                                                        <option>Finalización y detalle</option>
+                                                        <option>Equilibrio visual</option>
+                                                        <option>Expresión y estilo artístico.</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="tb2_b3" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="tb2_b3" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="tb2_b4" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="tb2_b4" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="tb2_b5" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="tb2_b5" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Conservación</small></td>
+                                                <td>
+                                                    <label for="cm2b3_b1" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="cm2b3_b1" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Integridad física (S)</option>
+                                                        <option>Humedad y manchas (S)</option>
+                                                        <option>Acidéz del soporte (S)</option>
+                                                        <option>Pérdida del material (S)</option>
+                                                        <option>Alteraciones cromáticas (C.G)</option>
+                                                        <option>Craquelado o desprendimiento (C.G)</option>
+                                                        <option>Manchas o contaminantes (C.G)</option>
+                                                        <option>Transferencias (C.G)</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="cm2b3_b2" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="cm2b3_b2" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Montaje y adhesivos</option>
+                                                        <option>Intervenciones pasadas</option>
+                                                        <option>Exposición a la luz</option>
+                                                        <option>Condiciones de humedad y temperatura</option>
+                                                        <option>Ataques de plagas</option>
+                                                        <option>Comparación con referencias históricas</option>
+                                                        <option>Análisis técnico</option>
+                                                        <option>Condiciones de manipulación</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="cm2b3_b3" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="cm2b3_b3" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="cm2b3_b4" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="cm2b3_b4" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="cm2b3_b5" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="cm2b3_b5" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Dimensiones</small></td>
+                                                <td>
+                                                    <label for="em2b4_b1" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="em2b4_b1" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Dimensiones del soporte</option>
+                                                        <option>Dimensiones de la imagen</option>
+                                                        <option>Proporción entre imagen y soporte.</option>
+                                                        <option>Dimensiones dentro de la composición</option>
+                                                        <option>Espacio negativo</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="em2b4_b2" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="em2b4_b2" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Recortes</option>
+                                                        <option>Pérdidas</option>
+                                                        <option>Deformaciones o interrupciones</option>
+                                                        <option>Ampliaciones o modificaciones</option>
+                                                        <option>Estándares o referencias</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="em2b4_b3" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="em2b4_b3" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="em2b4_b4" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="em2b4_b4" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="em2b4_b5" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="em2b4_b5" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Materialidad</small></td>
+                                                <td>
+                                                    <label for="estl_b6" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="estl_b6" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Tipo de soporte</option>
+                                                        <option>Calidad del soporte</option>
+                                                        <option>Textura y acabado</option>
+                                                        <option>Tipo de tinta o pigmento</option>
+                                                        <option>Composición química</option>
+                                                        <option>Interacción entre materiales</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="estl_b7" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="estl_b7" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Firma, sello o marca de agua</option>
+                                                        <option>Montajes o adhesivos</option>
+                                                        <option>Características específicas de la técnica</option>
+                                                        <option>Materiales típicos de la época</option>
+                                                        <option>Innovaciones técnicas</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="estl_b8" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="estl_b8" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="estl_b9" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="estl_b9" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="estl_b10" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="estl_b10" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Unicidad</small></td>
+                                                <td>
+                                                    <label for="tema_b6" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="tema_b6" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Obra única</option>
+                                                        <option>Edición limitada</option>
+                                                        <option>Reproducción</option>
+                                                        <option>Prueba de impresión</option>
+                                                        <option>Edición y tiraje</option>
+                                                        <option>Numeración</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="tema_b7" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="tema_b7" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Marcas adicionales</option>
+                                                        <option>Marcas de la matriz</option>
+                                                        <option>Variaciones en la impresión</option>
+                                                        <option>Prueba de color o estado</option>
+                                                        <option>Reproducción digital</option>
+                                                       
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="tema_b8" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="tema_b8" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="tema_b9" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="tema_b9" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="tema_b10" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="tema_b10" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>*</td>
+                                                <td colspan="5">
+                                                    <label for="catg_b6" class="form-label d-none"></label>
+                                                    <input type="text" class="form-control rounded-0" aria-label="Username" aria-describedby="basic-addon1">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Experto 1</td>
+                                                <td colspan="5">
+                                                    <label for="catg_b6" class="form-label d-none"></label>
+                                                    <input type="text" class="form-control rounded-0" aria-label="Username" aria-describedby="basic-addon1">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Experto 2</td>
+                                                <td colspan="5">
+                                                    <label for="catg_b6" class="form-label d-none"></label>
+                                                    <input type="text" class="form-control rounded-0" aria-label="Username" aria-describedby="basic-addon1">
+                                                </td>
+                                            </tr>
+
+                                            <tr class="bg-none">
+                                                <td colspan="7">
+                                                    <p class="text-center fs-4 fw-blod pt-4">VARIABLES SUBJETIVAS</p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th></th>
+                                                <th>Intrínsecas</th>
+                                                <th>Extrínsecas</th>
+                                                <th>Independientes</th>
+                                                <th>Tasación experto 1</th>
+                                                <th>Tasación experto 2</th>
+                                                <th>Ponderación</th>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Originalidad</small></td>
+                                                <td>
+                                                    <label for="catg_b6" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="catg_b6" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Innovación conceptual</option>
+                                                        <option>Estilo personal del artista</option>
+                                                        <option>Diferenciación de la producción</option>
+                                                        <option>Uso de materiales únicos</option>
+                                                        <option>Reelevancia en la trayectoria del artista</option>
+                                                        <option>Experimentación con el soporte</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="catg_b7" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="catg_b7" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Narrativa visual</option>
+                                                        <option>Integridad creativa</option>
+                                                        <option>Elementos compositivos y estilísticos</option>
+                                                        <option>Contexto de creación</option>
+                                                        <option>Desafío a normas establecidas</option>
+                                                        <option>Aporte a la evolución artística</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="catg_b8" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="catg_b8" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="catg_b9" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="catg_b9" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="catg_b10" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="catg_b10" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Temática</small></td>
+                                                <td>
+                                                    <label for="orgnl_b6" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="orgnl_b6" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Tema reelevante</option>
+                                                        <option>Originalidad del enfoque</option>
+                                                        <option>Relación entre la técnica y el tema</option>
+                                                        <option>Simbolísmo y metáforas visuales</option>
+                                                        <option>Universalidad del tema</option>
+                                                        <option>Especifidad del tema</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="orgnl_b7" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="orgnl_b7" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Interacción con el espectador</option>
+                                                        <option>Impacto duradero</option>
+                                                        <option>Interpretaciones múltiples</option>
+                                                        <option>Enfoques subjetivos</option>
+                                                        <option>Díalogo con otras obras</option>
+                                                        <option>Intertextualidad</option>
+                                                        <option>Técnicas específicas</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="orgnl_b8" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="orgnl_b8" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="orgnl_b9" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="orgnl_b9" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="orgnl_b10" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="orgnl_b10" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Tendencias</small></td>
+                                                <td>
+                                                    <label for="prfc_b6" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_b6" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Tendencia global</option>
+                                                        <option>Tendencia local</option>
+                                                        <option>Inspiración para otros creadores</option>
+                                                        <option>Viralidad y difusión</option>
+                                                        <option>Debate y reflexión</option>
+                                                        <option>Reflejo de temas sociales contemporáneos</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_b7" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_b7" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Exposiciones destacadas</option>
+                                                        <option>Premios y reconocimientos</option>
+                                                        <option>Adaptación y reinterpretación de estéticas anteriores</option>
+                                                        <option>Incorporación en colecciones públicas y privadas</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_b8" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_b8" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_b9" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_b9" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_b10" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_b10" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Valor estético</small></td>
+                                                <td>
+                                                    <label for="prfc_p7" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_p7" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Equlibro simétrico</option>
+                                                        <option>Equlibro asimétrico</option>
+                                                        <option>Proporción y escala</option>
+                                                        <option>Contrastes y armonía cromática</option>
+                                                        <option>Legibilidad</option>
+                                                        <option>Cohesión de la obra</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_t8" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_t8" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Expresión emocional</option>
+                                                        <option>Movimiento y dinamismo visual</option>
+                                                        <option>Resonancia visual</option>
+                                                        <option>Satisfacción visual</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_s9" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_s9" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_h10" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_h10" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_v10" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_v10" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Valor simbólico</small></td>
+                                                <td>
+                                                    <label for="prfc_p8" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_p8" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Presencia de símbolos</option>
+                                                        <option>Metáforas visuales</option>
+                                                        <option>Narrativa simbólica</option>
+                                                        <option>Simbolísmo claro</option>
+                                                        <option>Simbolísmo ambiguo</option>
+                                                        <option>Relación entre forma y significado</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_t9" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_t9" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Refleja pensamiento filosófico</option>
+                                                        <option>Refleja pensamiento político</option>
+                                                        <option>Resonancia simbólica</option>
+                                                        <option>Claridad del mensaje</option>
+                                                        <option>Creatividad simbólica</option>
+                                                        <option>Interacción simbólica</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_s10" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_s10" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_h11" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_h11" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_v11" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_v11" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Valor histórico</small></td>
+                                                <td>
+                                                    <label for="prfc_p9" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_p9" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Relación con eventos históricos</option>
+                                                        <option>Reflejo de la época</option>
+                                                        <option>Vinculación con movimientos artísticos</option>
+                                                        <option>Evolución de estilos</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_t10" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_t10" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Arte en extinción</option>
+                                                        <option>Contribución a la educación</option>
+                                                        <option>Legado artístico</option>
+                                                        <option>Impacto comparativo</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_s11" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_s11" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_h12" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_h12" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_v12" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_v12" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Valor cultural</small></td>
+                                                <td>
+                                                    <label for="prfc_p10" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_p10" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Expresión de la identidad cultural</option>
+                                                        <option>Inclusión de símbolos culturales</option>
+                                                        <option>Preservación de tradiciones</option>
+                                                        <option>Apertura al diálogo intercultural</option>
+                                                        <option>Desafío a normas culturales</option>
+                                                        <option>Renovación cultural</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_t11" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_t11" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Impacto educativo</option>
+                                                        <option>Iconografía cultural</option>
+                                                        <option>Participación colectiva</option>
+                                                        <option>Impacto cultural</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_s12" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_s12" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_h13" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_h13" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_v13" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_v13" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Mercado</small></td>
+                                                <td>
+                                                    <label for="prfc_p11" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_p11" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Popularidad del artista</option>
+                                                        <option>Tamaño de la edición</option>
+                                                        <option>Exclusividad</option>
+                                                        <option>Demanda del estilo</option>
+                                                        <option>Demanda regional</option>
+                                                        <option>Demanda global</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_t12" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_t12" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Historial en subastas</option>
+                                                        <option>Potencial para atraer nuevas audiencias</option>
+                                                        <option>Ventas pasadas</option>
+                                                        <option>Comparación con obras similares</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_s13" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_s13" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_h14" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_h14" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="prfc_v14" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="prfc_v14" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>*</td>
+                                                <td colspan="5">
+                                                    <label for="catg_b6" class="form-label d-none"></label>
+                                                    <input type="text" class="form-control rounded-0" aria-label="Username" aria-describedby="basic-addon1">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Experto 1</td>
+                                                <td colspan="5">
+                                                    <label for="catg_b6" class="form-label d-none"></label>
+                                                    <input type="text" class="form-control rounded-0" aria-label="Username" aria-describedby="basic-addon1">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Experto 2</td>
+                                                <td colspan="5">
+                                                    <label for="catg_b6" class="form-label d-none"></label>
+                                                    <input type="text" class="form-control rounded-0" aria-label="Username" aria-describedby="basic-addon1">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="7">
+                                                    <p class="text-center fs-4 fw-blod pt-4">VARIABLES TANGIBLES</p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th></th>
+                                                <th>Intrínsecas</th>
+                                                <th>Extrínsecas</th>
+                                                <th>Independientes</th>
+                                                <th>Tasación experto 1</th>
+                                                <th>Tasación experto 2</th>
+                                                <th>Ponderación</th>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Procedencia</small></td>
+                                                <td>
+                                                    <label for="trytb6_b11" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="trytb6_b11" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Rastro de propiedad</option>
+                                                        <option>Mención en registros</option>
+                                                        <option>Mención en bases de datos</option>
+                                                        <option>Exposición en museos</option>
+                                                        <option>Exposición en galerías</option>
+                                                        <option>Registro en subastas</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="trytb6_b12" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="trytb6_b12" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Exhibición en instituciones</option>
+                                                        <option>Investigación en casos de restitución</option>
+                                                        <option>Colecciones internacionales</option>
+                                                        <option>Opinión de expertos</option>
+                                                        <option>Compra directa</option>
+                                                        <option>Compra por intermediarios</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="trytb6_b13" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="trytb6_b13" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="trytb6_b14" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="trytb6_b14" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="trytb6_b15" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="trytb6_b15" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Autenticidad</small></td>
+                                                <td>
+                                                    <label for="crtaut_b11" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="crtaut_b11" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Certificado de autenticidad</option>
+                                                        <option>Informe de expertos</option>
+                                                        <option>Certificado de galería</option>
+                                                        <option>Certificado de casa de subastas</option>
+                                                        <option>Catálogo razonado</option>
+                                                        <option>Documento de proveniencia</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="crtaut_b12" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="crtaut_b12" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Registros de exhibición</option>
+                                                        <option>Informe de conservación</option>
+                                                        <option>Informe/Documento de restauración</option>
+                                                        <option>Publicaciones</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="crtaut_b13" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="crtaut_b13" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="crtaut_b14" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="crtaut_b14" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="crtaut_b15" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="crtaut_b15" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><small>Firma</small></td>
+                                                <td>
+                                                    <label for="fctfiscb8_b11" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="fctfiscb8_b11" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Coincide firmas previas</option>
+                                                        <option>Ubicación de la firma</option>
+                                                        <option>Estilo de la firma</option>
+                                                        <option>Dedicatorias</option>
+                                                        <option>Uso de abreviaturas</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="fctfiscb8_b12" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="fctfiscb8_b12" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Autenticidad del número de edición</option>
+                                                        <option>Número de edición</option>
+                                                        <option>Análisis digital</option>
+                                                        <option>Análisis de pigmentos</option>
+                                                        <option>fecha y firma</option>
+                                                        <option>Firma no reproducida</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="fctfiscb8_b13" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="fctfiscb8_b13" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="fctfiscb8_b14" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="fctfiscb8_b14" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <label for="fctfiscb8_b15" class="form-label d-none"></label>
+                                                    <select class="form-select rounded-0" id="fctfiscb8_b15" required>
+                                                        <option selected disabled value="">-</option>
+                                                        <option>Ninguna</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                        <option>10</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>*</td>
+                                                <td colspan="5">
+                                                    <label for="catg_b6" class="form-label d-none"></label>
+                                                    <input type="text" class="form-control rounded-0" aria-label="Username" aria-describedby="basic-addon1">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Experto 1</td>
+                                                <td colspan="5">
+                                                    <label for="catg_b6" class="form-label d-none"></label>
+                                                    <input type="text" class="form-control rounded-0" aria-label="Username" aria-describedby="basic-addon1">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Experto 2</td>
+                                                <td colspan="5">
+                                                    <label for="catg_b6" class="form-label d-none"></label>
+                                                    <input type="text" class="form-control rounded-0" aria-label="Username" aria-describedby="basic-addon1">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>  
+                                <div class="d-grid col-6 pt-4 pb-2 mx-auto">
+                                    <div id="liveAlertPlaceholder"></div>
+                                    <button type="button" class="btn btn-dark rounded-0 px-5" id="liveAlertBtn">Enviar</button>
+                                    <script>
+                                        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+                                        const appendAlert = (message, type) => {
+                                        const wrapper = document.createElement('div')
+                                        wrapper.innerHTML = [
+                                            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                                            `   <div>${message}</div>`,
+                                            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                                            '</div>'
+                                        ].join('')
+
+                                        alertPlaceholder.append(wrapper)
+                                        }
+
+                                        const alertTrigger = document.getElementById('liveAlertBtn')
+                                        if (alertTrigger) {
+                                        alertTrigger.addEventListener('click', () => {
+                                            appendAlert('Evaluación enviada con éxito', 'success')
+                                        })
+                                        }
+                                    </script>
+                                </div> 
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <!--FIN MENU MAQUETACIÓN 1 NVL ADMIN-->
+
+        <!-----------------------------------------------------MODALES----------------------------------------------->
+        <style>
+            .text-gris{
+                color: #d4d2d2 !important;
+                text-align: justify;
+            }
+            .form-select:focus, .form-control:focus, .btn:focus{
+                outline: none !important;
+                box-shadow: none !important;
+            }
+            .conttablesft{
+                background: #f5f5f5;
+                box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.3) !important;
+            }
+            .icons-fichat{
+                height:25px;
+            }
+            .size-fotoObra{
+                width: max-content;
+                height: auto;
+                max-height: 200px;
+            }
+            #contimg{
+                min-height:140px;
+            }
+            #nacionalidad_autor{
+                font-size: 10px !important;
+                height: 38px;
+            }
+            .contsec{
+                max-height:530px;
+                overflow-y: auto;
+            }
+        </style>
+                <!--MODAL VER INFORMACIÓN DE LA OBRA-->
+                    <div class="modal fade" id="mdlVerFichaTecnica" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content rounded-0 border-0">
+                                <div class="modal-header bg-dark rounded-0">
+                                    <h5 class="modal-title text-light fw-light text-uppercase" id="modal_titulo_registro">INFORMACIÓN DE LA OBRA</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body pt-4 fw-light">
+                                    <div class="row g-3 d-flex justify-content-center mx-sm-3">
+
+                                        <div class="col-md-7">
+                                            <img class="img-thumbnail mx-auto d-block" id="imagen_obrav" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Files/img/FotosObrasFT/ejemplo.jpg" alt="" style="max-height: 200px;">
+                                        </div>
+                                        <div class="col-md-5 text-start">
+                                            <div class="row d-flex gy-3">
+                                                <div class="col-12 d-flex">
+                                                    Título: <div class="text-secondary px-2" id="titulo_obrav">Diferencia y continuidad.</div>
+                                                </div>
+                                                <div class="col-12 d-flex">
+                                                    Autor: <div class="text-secondary px-2" id="autor_obrav">Manuel Felguerez <br>Juan García Ponce.</div>
+                                                </div>
+                                                <div class="col-12 d-flex">
+                                                    Serie: <div class="text-secondary px-2" id="serie_obrav">Colección Tezontle. <br> ISBN 968-16/7665-3 (Encuadernada)</div>
+                                                </div>
+                                                <div class="col-12 d-flex">
+                                                    Año: <div class="text-secondary px-2" id="fejecucion_obrav">1982</div>
+                                                </div>
+                                                <div class="col-12 d-flex">
+                                                    Categoría: <div class="text-secondary px-2" id="categoria_obrav">Grabado</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="mb-1">
+                                        <div class="col-12 d-flex">
+                                            Descripción:
+                                            <div id="descripcion_obrav" class="text-secondary px-2">Parte de la serie de 24 serigrafías contenidas en una carpeta resultado de investigación de Manuel Felguerez y Juan García Ponce.</div>
+                                        </div>
+                                        <div class="col-12 d-flex">
+                                            Ténica(s): 
+                                            <div id="tecnicas_obrav" class="text-secondary px-2">Serigrafía.</div>
+                                            <div id="desctecnica_obrav" class="text-secondary">Ideogramas digitales abstractos compuestos de aforismos de Juan García Ponce y serigrafías de Manuel Felguerez.</div>
+                                        </div>
+                                        <div class="col-12 d-flex">
+                                            Materiales:
+                                            <div id="materiales_obrav" class="text-secondary px-2">Papel vegetal de 110 gramos, papel Súper Alfa Guarro de 250 gramos a 8 tintas.</div>
+                                        </div>
+                                        <hr class="mb-1">
+                                        <div class="col-12">
+                                            <strong>Otros detalles de la obra:</strong> 
+                                            <div class="row">
+                                                <div class="col-sm-6 pt-3">
+                                                    <div class="row fw-light">
+                                                        <div class="col-12 d-flex">
+                                                            Dimensiones:
+                                                            <div id="dimAlto_obrav" class="text-secondary px-1">34</div>
+                                                            <div id="dimLargo_obrav" class="text-secondary">x 46</div>
+                                                            <div id="dimAncho_obrav" class="text-secondary px-1">cm</div>
+                                                        </div>
+                                                        <div class="col-12 d-flex">
+                                                            Peso:
+                                                            <div id="peso_obrav" class="text-secondary px-1">NA</div>
+                                                        </div>
+                                                        <div class="col-12 d-flex">
+                                                            Estilo:
+                                                            <div id="estilo_obrav" class="text-secondary px-1">Abstracto</div>
+                                                        </div>
+                                                        <div class="col-12 d-flex">
+                                                            Tema:
+                                                            <div id="tema_obrav" class="text-secondary px-1">Otros</div>
+                                                        </div>
+                                                        <div class="col-12 d-flex">
+                                                            Colores:
+                                                            <div id="colores_obrav" class="text-secondary px-1">Cafe, morado.</div>
+                                                        </div>
+                                                        <div class="col-12 d-flex">
+                                                            Originalidad:
+                                                            <div id="originalidad_obrav" class="text-secondary px-1">Original</div>
+                                                        </div>
+                                                        <div class="col-12 d-flex">
+                                                            Orientación:
+                                                            <div id="orientacion_obrav" class="text-secondary px-1">Horizontal.</div>
+                                                        </div>
+                                                        <div class="col-12 d-flex">
+                                                            Enmarcado:
+                                                            <div id="enmarcado_obrav" class="text-secondary px-1">No.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row pt-4">
+                                                        <div class="col-12 d-flex justify-content-end align-items-center">
+                                                            Certificado de autenticidad 
+                                                            <button disabled class="btn btn-dark rounded-0 px-2 pt-1 ms-2" id="certificado_autenticidad_obrav"><img class="icons-fichat" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_eyeFFFFFF.png"></button>
+                                                        </div>
+                                                        <div class="col-12 d-flex justify-content-end align-items-center pt-3">
+                                                            Factura fiscal de la obra
+                                                            <button disabled class="btn btn-dark rounded-0 px-2 pt-1 ms-2" id="factura_fiscal_obrav"><img class="icons-fichat" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_eyeFFFFFF.png"></button>
+                                                        </div>
+                                                        <div class="col-12 d-flex justify-content-end align-items-center pt-3">
+                                                            Información del autor
+                                                            <button disabled class="btn btn-dark rounded-0 px-2 pt-1 ms-2" id="infautor_obrav"><img class="icons-fichat" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_eyeFFFFFF.png"></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer pt-1 pb-1">
+                                    <button class="btn btn-secondary border-0 rounded-0 px-4" data-bs-dismiss="modal">Regresar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!--FIN MODAL PARA VER INFORMACIÓN DE LA OBRA-->
+
+        <!--------------------------------------------------FIN MODALES------------------------------------------->
+
+        <!--JS-->
+        <script>
+            var altura = document.getElementById('menu').offsetHeight;
+            var total = window.innerHeight;
+            var resultado = parseInt(total) - parseInt(altura);
+            //console.log("Altura: "+resultado);
+            document.querySelector('.main').style.height = resultado + "px";
+            const btnm = document.querySelector("#toggle-btn");
+            btnm.addEventListener("click", function() {
+                document.querySelector("#sidebar").classList.toggle("expand");
+            });
+        </script>
+
+        <!--bootstrap-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <!--jquery-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!--DataTables-->
+        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+
+</body>
+</html>

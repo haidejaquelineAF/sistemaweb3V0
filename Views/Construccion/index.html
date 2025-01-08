@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador</title>
+    <!--Estilos-->
+        <!--Bootstrap-->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!--Icons-->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <!--JQuery-->
+            <script src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/Tools/Jquery/jquery.min.js"></script>
+        <!--DataTables-->
+            <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+        <!--Multi-select-->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/css/multi-select-tag.css">
+        <style>
+            ::after,
+            ::before {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body{
+                min-width: 260px; max-width: 100vw;
+            }
+        </style>
+</head>
+<body>
+
+        <!--MENU MAQUETACIÓN 1 NVL ADMIN-->
+            <style>
+                .btn:focus{
+                    outline: none;
+                    box-shadow: none;
+                }
+                .bg-negro{
+                    background: black !important;
+                }
+                .size-logo{
+                    width: 20vw; min-width: 210px;
+                }
+                .size-iconmenu{
+                    height:2.5vw; min-height: 25px;
+                }
+                .size-iconsmenu{
+                    height:2vw; min-height: 25px;
+                }
+                .size-user{
+                    height:3vw; min-height: 30px;
+                }
+                .size-dropdownuser{
+                    width: 240px;
+                }
+                .size-userdrop{
+                    height:4.2vw; min-height: 32px;
+                }
+                .size-iconsdropuser{
+                    height:3vw; min-height: 30px;
+                }
+                .main{
+                    transition: all 0.35s ease-in-out;
+                    /*min-height:100vh;*/
+                    width: 100%;
+                }
+                #sidebar{
+                    /*width: 0px;
+                    min-width: 0px;*/
+                    width: 70px;
+                    min-width: 70px;
+                    z-index: 1000;
+                    transition: all 0.25s ease-in-out;
+                    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+                }
+                #sidebar.expand{
+                    width: 250px;
+                    min-width: 250px;
+                }
+                #sidebar:not(.expand) a.sidebar-link span
+                ,#sidebar:not(.expand) a.sidebar-link i{
+                    display: none;
+                }
+                .sidebar-nav{
+                    flex:1 1 auto;
+                }
+                a.sidebar-link{
+                    white-space: nowrap;
+                    letter-spacing: 0.15em;
+                    color: #000;
+                }
+                a.sidebar-link:hover{
+                    border-left: 3px solid #3b7ddd;
+                }
+                #sidebar:not(.expand) .sidebar-item .sidebar-dropdown{
+                    position: absolute;
+                    top:0;
+                    left: 70px;
+                    padding:0;
+                    min-width: 15rem;
+                    display: none;
+                    background:rgba(0,0,0,.1);
+                }
+
+                #sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown{
+                    display:block;
+                    max-height: 15rem;
+                    width: 100%;
+                    opacity: 1;
+                    text-align:start;
+                    margin-left: 0;
+                }
+                .has-dropdown+.sidebar-dropdown{
+                    background:rgba(0,0,0,.1);
+                    width: 210px;
+                    text-align: center;
+                    margin-left: 1.5rem;
+                }
+                #sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after{
+                    border: solid;
+                    border-width: 0 0.075rem 0.075rem 0;
+                    content: "";
+                    display: inline-block;
+                    padding: 2px;
+                    position:absolute;
+                    right: 1.5rem;
+                    top: 1.4rem;
+                    transform: rotate(-135deg);
+                    transition: all .2s ease-out;
+                }
+                #sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after{
+                    transform: rotate(45deg);
+                    transition: all .2s ease-out;
+                }
+            </style>
+            <div class="container-fluid bg-negro py-1" id="menu">
+                <div class="row d-flex align-items-center">
+                    <div class="col-12 d-sm-none d-block text-center">
+                        <a class="text-decoration-none text-white fs-5" href="https://haidejaquelineaf.github.io/sistemaweb3V0/">
+                            <img class="img-fluid d-inline-block size-logo" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsLogos/logoL_b-artemx_bc85898C.png">
+                        </a>
+                    </div>
+                    <div class="d-flex justify-content-center px-0" style="width: 80px !important;">
+                        <button id="toggle-btn" type="button" class="bg-transparent border-0 pt-2 pb-1 px-0">
+                            <img class="img-fluid d-inline-block size-iconmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_menu.png">
+                        </button>
+                    </div>
+                    <div class="col-6 d-sm-block d-none py-1">
+                        <a class="text-decoration-none text-white fs-5" href="https://haidejaquelineaf.github.io/sistemaweb3V0/">
+                            <img class="img-fluid d-inline-block size-logo" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsLogos/logoL_b-artemx_bc85898C.png">
+                        </a>
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                <button type="button" class="btn p-0"><i class="bi bi-bell fs-5 px-1 text-white"></i></button>
+                            <button type="button" class="btn p-0"><i class="bi bi-cart2 text-white fs-5 px-1"></i></button>
+                            <button type="button" class="btn p-0"><img class="size-iconsmenu"src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_languageFFFFFF.png"></button>
+                                <div class="btn-group" role="group">
+                                    <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_user.png" class="img-circle elevation-3 rounded-circle size-user">
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end rounded-0 size-dropdownuser" aria-labelledby="btnGroupDrop1">
+                                        <li class="px-2 row d-flex align-items-center">
+                                            <div class="col-3">
+                                                <img src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_user.png" class="img-circle elevation-3 rounded-circle size-userdrop">
+                                            </div>
+                                            <div class="col-9 pt-1">
+                                                <p class="fw-bold pt-1">Haide Jaqueline
+                                                <small class="fw-light pt-2">haide.aguilar14@gmail.com</small>
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/"><i class="bi bi-person-circle fs-5 text-secondary pe-3"></i>Mi cuenta</a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/"><i class="bi bi-bell-fill fs-5 text-secondary pe-3"></i>Notificaciones</a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/"><i class="bi bi-gear-fill fs-5 text-secondary pe-3"></i>Configuración</a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/"><i class="bi bi-headset fs-5 text-secondary pe-3"></i>Ayuda y soporte</a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/"><i class="bi bi-book-fill fs-5 text-secondary pe-3"></i>Política de privacidad</a></li>
+                                        <li><a class="dropdown-item d-flex align-items-center fw-light" href="https://haidejaquelineaf.github.io/b-artemxv1/"><i class="bi bi-power fs-5 text-secondary pe-3"></i>Cerrar sesión</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper d-flex">         
+                <aside id="sidebar" class="d-flex flex-column bg-white ">
+                    <ul class="sidebar-nav pt-5 pb-2 px-0">
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link text-decoration-none px-4 " href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_homeg.png">
+                                <span class="ps-4">Inicio</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link has-dropdown collapsed text-decoration-none px-4 " href="" data-bs-toggle="collapse" 
+                                data-bs-target="#usuarios" aria-expanded="false" aria-controls="usuarios">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_usersg.png">
+                                <span class="ps-4">Usuarios</span>
+                            </a>
+                            <ul id="usuarios" class="sidebar-dropdown list-unstyled collapse py-2" data-bs-parent="#sidebar">
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-2 ">Control de usuarios</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-2 ">Suspender cuentas</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-2 ">Control artistas</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link has-dropdown collapsed text-decoration-none px-4 " href="#" data-bs-toggle="collapse" 
+                                data-bs-target="#obras" aria-expanded="false" aria-controls="obras">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_artworksg.png">
+                                <span class="ps-4">Obras</span>
+                            </a>
+                            <ul id="obras" class="sidebar-dropdown list-unstyled collapse py-2" data-bs-parent="#sidebar">
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Galería</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Concurso</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/" class="sidebar-link text-decoration-none px-4">Valuación</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link has-dropdown collapsed text-decoration-none px-4 " href="#" data-bs-toggle="collapse" 
+                                data-bs-target="#concurso" aria-expanded="false" aria-controls="concurso">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_trophyg.png">
+                                <span class="ps-4">Concurso</span>
+                            </a>
+                            <ul id="concurso" class="sidebar-dropdown list-unstyled collapse py-2" data-bs-parent="#sidebar">
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Convocatoria</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Participantes</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link has-dropdown collapsed text-decoration-none px-4 " href="#" data-bs-toggle="collapse" 
+                                data-bs-target="#estadisticas" aria-expanded="false" aria-controls="estadisticas">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_stadisticsg.png">
+                                <span class="ps-4">Reporte</span>
+                            </a>
+                            <ul id="estadisticas" class="sidebar-dropdown list-unstyled collapse py-2" data-bs-parent="#sidebar">
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Sistema</a>
+                                </li>
+                                <li class="sidebar-item position-relative">
+                                    <a href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/" class="sidebar-link text-decoration-none px-4">Usuario</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item py-2 position-relative">
+                            <a class="sidebar-link text-decoration-none px-4 " href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/">
+                            <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_supportg2.png">
+                                <span class="ps-4">Soporte</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item py-3 position-relative">
+                            <a class="sidebar-link text-decoration-none px-4" href="https://haidejaquelineaf.github.io/sistemaweb3V0/Views/Construccion/">
+                                <img class="img-fluid d-inline-block size-iconsmenu" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsIconos/icon_sistemg.png">
+                                <span class="ps-4">Sistema</span>
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+                <div class="main overflow-hidden">
+                    <div class="row align-items-center pt-2">
+                        <div class="col-md-5 ps-5">
+                            <h1 class="ps-5">Oops!</h1>
+                            <h2 class="ps-5">Página en construcción</h2>
+                            <h6 class="ps-5 fw-light">Ingenieros trabajando...</h6>
+                        </div>
+                        <div class="col-md-7">
+                            <img class="img-fluid" src="https://haidejaquelineaf.github.io/sistemaweb3V0/Assets/img/ImgsFondos/construccion.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!--FIN MENU MAQUETACIÓN 1 NVL ADMIN-->
+
+
+        <!--JS-->
+        <script>
+            var altura = document.getElementById('menu').offsetHeight;
+            var total = window.innerHeight;
+            var resultado = parseInt(total) - parseInt(altura);
+            //console.log("Altura: "+resultado);
+            document.querySelector('.main').style.height = resultado + "px";
+            const btnm = document.querySelector("#toggle-btn");
+            btnm.addEventListener("click", function() {
+                document.querySelector("#sidebar").classList.toggle("expand");
+            });
+        </script>
+
+        <!--bootstrap-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <!--jquery-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!--DataTables-->
+        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+
+</body>
+</html>
